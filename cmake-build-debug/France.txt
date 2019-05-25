@@ -1,0 +1,166 @@
+Python est un langage de programmation interprété, multi-paradigme et multiplateformes. Il favorise la programmation impérative structurée, fonctionnelle et orientée objet. Il est doté d'un typage dynamique fort, d'une gestion automatique de la mémoire par ramasse-miettes et d'un système de gestion d'exceptions ; il est ainsi similaire à Perl, Ruby, Scheme, Smalltalk et Tcl.
+
+Le langage Python est placé sous une licence libre proche de la licence BSD7 et fonctionne sur la plupart des plates-formes informatiques, des smartphones aux ordinateurs centraux8, de Windows à Unix avec notamment GNU/Linux en passant par macOS, ou encore Android, iOS, et peut aussi être traduit en Java ou .NET. Il est conçu pour optimiser la productivité des programmeurs en offrant des outils de haut niveau et une syntaxe simple à utiliser.
+
+Il est également apprécié par certains pédagogues qui y trouvent un langage où la syntaxe, clairement séparée des mécanismes de bas niveau, permet une initiation aisée aux concepts de base de la programmation9.Les mots-clés sont fournis dans la liste keyword.kwlist du module keyword27. Les mots-clés de Python 2.7.5 sont les suivants : and, as, assert, break, class, continue, def, del, elif, else, except, exec, finally, for, from, global, if, import, in, is, lambda, not, or, pass, print, raise, return, try, while, with, yield.
+
+À partir de Python 3.0, print et exec ne sont plus des mots-clés du langage, mais des fonctions du module builtins28. Sont ajoutés aux mots-clés : True, False, None et nonlocal. Les trois premiers étaient déjà présents dans les versions précédentes, mais ils ne sont plus modifiables (auparavant, l'affectation True = 1 était possible)29. nonlocal a été introduit par le PEP 310430, et permet, dans une fonction définie à l'intérieur d'une autre fonction, de modifier une variable d'un niveau supérieur de portée. Avant cela, seules les variables locales à la fonction, et globales (niveau module) étaient modifiables. Toutefois, il était possible, et ça l'est toujours sans le mot-clé nonlocal, de modifier un objet affecté à une variable d'un niveau de portée supérieur, par exemple une liste avec la méthode append - c'est évidemment impossible pour un objet immuable.
+
+Types de base
+Les types de base en Python sont relativement complets et puissants. Il y a, entre autres :
+
+Les objets numériques
+int est un entier. Avant la version 3.0, ce type était dénommé long, et le type int correspondait à un entier de 32 ou 64 bits. Néanmoins, une conversion automatique évitait tout débordement. Maintenant, ce type correspond à un entier codé sur 32 bits ou moins.
+long est un entier illimité de plus de 32 bits en Python 3.
+float est un flottant équivalent au type double du C, soit un nombre entre −1,7×10308 et 1,7×10308 sur les plateformes en conformité avec l'IEEE 754.
+complex est une approximation d'un nombre complexe (typiquement deux float).
+Les objets « itérables »
+Les objets tuple (n-uplet) sont des listes immuables d'objets hétérogènes.
+Les objets list sont des tableaux dynamiques (ils étendent automatiquement leur taille lorsque nécessaire) et acceptent des types de données hétérogènes.
+Les objets set sont des ensembles non ordonnés d'objets.
+Les objets frozenset forment une variante immuable des set.
+Les objets dict sont des tableaux associatifs (ou dictionnaires) permettant d'associer un objet (une clef) à un autre.
+Les objets str sont des chaînes de caractères. À partir de la version 3.0, les caractères sont en Unicode sur 16 ou 32 bits ; les chaines d'octets sont des objets bytes31. Dans les versions précédentes, ces objets étaient respectivement de type unicode et str. Les objets str et bytes sont immuables.
+Les objets bytearray sont des chaînes d'octets modifiables. La version d'Unicode employée par Python peut être déterminée à l'aide de la variable unidata_version du module unicodedata.
+Les objets file correspond à un fichier obtenu grâce à la méthode open()
+Il existe aussi d'autres types d'objets itérables, notamment xrange obtenu via la méthode range(), et les types liés aux méthodes de dictionnaires .keys(), .values() et .items(). La plupart d'entre eux sont immuables.
+Les autres objets, n'étant ni numériques ni itérables
+None est simplement le type d'un "vide". Il sert à dénoter qu'une variable est vide.
+type est le type du type des objets, obtenu grâce à la méthode type().
+object est le type basique dont tous les autres types "héritent"
+slice est une partie de type ou un objet extensible
+NotImplementedType est, comme son nom l'indique, une absence d'implémentation du type auquel on essaie d'accéder.
+bool est un booléen, soit le type de True et False renvoyés par exemple lors de comparaisons or de l'utilisation de méthodes is_x().
+exception est le type d'un message d'erreur lancé lorsque le code lève une exception.
+function est le type d'une fonction, utilisé lors de l'appel des mots-clef def et lambda.
+module est le type d'un module, utilisé lors de l'appel des mots-clef import et from.
+Les objets itérables sont parcourus à l'aide d'une boucle for de la manière suivante :Un générateur peut sembler identique à une fonction qui retourne une liste, mais contrairement à une liste qui contient tous ses éléments, un générateur calcule ses éléments un par un.
+Ainsi, le test 36 in [n * n for n in range(10)] va s'effectuer sur la liste calculée en entier, alors que dans 36 in (n * n for n in range(10)), qui utilise un générateur, le calcul des carrés s'arrête dès que 36 est trouvé. On peut s'en convaincre en remplaçant n * n par un appel de fonction réalisant un effet de bord, par exemple un affichage à l'écran.
+
+Réflexivité
+Grâce à un usage intensif des dictionnaires (conteneur associatif développé avec des tables de hachage), Python permet d'explorer les divers objets du langage (introspection) et dans certains cas de les modifier (intercession).
+
+Typage
+Python 3. The standard type hierarchy.png
+Le typage n'est pas vérifié à la compilation. Python utilise le duck typing : lors de l’exécution, si une méthode invoquée sur un objet a la même signature qu'une méthode déclarée sur cet objet, alors c'est cette dernière méthode qui est exécutée. De ce fait, invoquer une méthode qui n'existe pas sur un objet va échouer, signifiant que l'objet en question n'est pas du bon type. Malgré l'absence de typage statique, Python est fortement typé, interdisant des opérations ayant peu de sens (par exemple, additionner un nombre à une chaîne de caractères) au lieu de tenter silencieusement de la convertir en une forme qui a du sens. Python propose des fonctions permettant de transformer les variables dans un autre type :
+
+points = 3.2 # points est du type float
+print("Tu as " + points + " points !") # Génère une erreur de typage
+
+points = int(points) # points est maintenant du type int (entier), sa valeur est arrondie à l'unité inférieure (ici 3)
+print("Tu as " + points + " points !") # Génère une erreur de typage
+
+points = str(points) # points est maintenant du type str (chaîne de caractères)
+print("Tu as " + points + " points !") # Plus d'erreur de typage, affiche 'Tu as 3 points !'
+Python propose aussi un mécanisme de typage statique pour les attributs des classes grâce à l'API trait35 ou au patron de conception decorators.
+
+Compilation
+Il est possible d'effectuer une analyse statique des modules Python avec des outils comme Pylint 36, mypy 37, ou PyChecker. Sans nécessiter une exécution, ces outils repèrent des fautes ou des constructions déconseillées. Par exemple, une classe qui hérite d'une classe abstraite et qui ne redéfinit pas les méthodes abstraites, ou bien des variables utilisées avant d'être déclarées, ou encore des attributs d'instance déclarés en dehors de la méthode __init__.
+
+Il est aussi possible de générer un code intermédiaire (bytecode) Python.
+
+Des outils comme PyInstaller38 ou d'autres plus spécifiques comme cx_Freeze sous Unix, Windows et macOS, py2app39 sous macOS et py2exe sous Windows permettent de « compiler » un programme Python sous forme d'un exécutable comprenant le programme et un interpréteur Python.
+
+Le programme ne tourne pas plus rapidement (il n'est pas compilé sous forme de code machine) mais cela simplifie largement sa distribution, notamment sur des machines où l'interpréteur Python n'est pas installé.
+
+Modèle objet
+En Python, tout est objet, dans le sens qu'une variable peut contenir une référence vers tous les éléments manipulés par le langage : nombres, méthodes, modules, etc.40. Néanmoins, avant la version 2.2, les classes et les instances de classes étaient un type d'objet particulier, ce qui signifiait qu'il était par exemple impossible de dériver sa propre sous-classe de l'objet list.
+
+Méthodes
+Le modèle objet de Python est inspiré de celui de Modula-341. Parmi ces emprunts se trouve l'obligation de déclarer l'instance de l'objet courant, conventionnellement nommée self, comme premier argument des méthodes, et à chaque fois que l'on souhaite accéder à une donnée de cette instance dans le corps de cette méthode. Cette pratique n'est pas naturelle pour des programmeurs venant par exemple de C++ ou Java, la profusion des self étant souvent critiquée comme étant une pollution visuelle qui gène la lecture du code. Les promoteurs du self explicite estiment au contraire qu'il évite le recours à des conventions de nommage pour les données membres et qu'il simplifie des tâches comme l'appel à une méthode de la superclasse ou la résolution d'homonymie entre données membres42.
+
+Python reconnaît trois types de méthodes :
+
+les méthodes d'instance, qui sont celles définies par défaut. Elles reçoivent comme premier argument une instance de la classe où elles ont été définies.
+les méthodes de classe, qui reçoivent comme premier argument la classe où elles ont été définies. Elles peuvent être appelées depuis une instance ou directement depuis la classe. Elles permettent de définir des constructeurs alternatifs comme la méthode fromkeys() de l'objet dict. Elles sont déclarées avec le décorateur @classmethod.
+les méthodes statiques, qui ne reçoivent pas de premier argument implicite. Elles sont similaires aux méthodes statiques que l'on trouve en Java ou C++. Elles sont déclarées avec le décorateur @staticmethod.
+Visibilité
+Le langage a un support très limité de l'encapsulation. Il n'y a pas, comme en Java par exemple, de contrôle de l'accessibilité par des mots clefs comme protected ou private.
+
+La philosophie de Python est de différencier conceptuellement l'encapsulation du masquage d'information. Le masquage d'information vise à prévenir les utilisations frauduleuses, c'est une préoccupation de sécurité informatique. Le module bastion de la bibliothèque standard, qui n'est plus maintenu dans les dernières versions du langage, permettait ainsi de contrôler l'accès aux attributs d'un objet dans le cadre d'un environnement d'exécution restreint.
+
+L'encapsulation est une problématique de développement logiciel. Le slogan des développeurs Python est we're all consenting adults here43 (nous sommes entre adultes consentants). Ils estiment en effet qu'il suffit d'indiquer, par des conventions d'écriture, les parties publiques des interfaces et que c'est aux utilisateurs des objets de se conformer à ces conventions ou de prendre leurs responsabilités. L'usage est de préfixer par un underscore les membres privés. Le langage permet par ailleurs d'utiliser un double underscore pour éviter les collisions de noms, en préfixant automatiquement le nom de la donnée par celui de la classe où elle est définie.
+
+L'utilisation de la fonction property() permet de définir des propriétés qui ont pour but d'intercepter, à l'aide de méthodes, les accès à une donnée membre. Cela rend inutile la définition systématique d'accesseurs et le masquage des données comme il est courant de le faire en C++ par exemple.
+
+Héritage
+Python supporte l'héritage multiple. Depuis la version 2.3, il utilise l'algorithme C3 (en), issu du langage Dylan44, pour résoudre l'ordre de résolution de méthode (MRO). Les versions précédentes utilisaient un algorithme de parcours en profondeur qui posait des problèmes dans le cas d'un héritage en diamant45.
+
+Bibliothèque standard
+
+Python est fourni « piles incluses ».
+Python possède une grande bibliothèque standard, fournissant des outils convenant à de nombreuses tâches diverses. Le nombre de modules de la bibliothèque standard peut être augmenté avec des modules spécifiques écrits en C ou en Python.
+
+La bibliothèque standard est particulièrement bien conçue pour écrire des applications utilisant Internet, avec un grand nombre de formats et de protocoles standards gérés (tels que MIME et HTTP). Des modules pour créer des interfaces graphiques et manipuler des expressions rationnelles sont également fournis. Python inclut également un framework de tests unitaires (unittest, anciennement PyUnit avant version 2.1) pour créer des suites de tests exhaustives.
+
+Conventions de style
+Bien que chaque programmeur puisse adopter ses propres conventions pour l'écriture de code Python, Guido van Rossum a mis un guide à disposition, référencé comme « PEP 8 »25. Publié en 2001, il est toujours maintenu pour l'adapter aux évolutions du langage. Google propose également un guide46.
+Python possède plusieurs modules disponibles pour la création de logiciels avec une interface graphique. Le plus répandu est Tkinter. Ce module convient à beaucoup d'applications et peut être considéré comme suffisant dans la plupart des cas. Néanmoins, d'autres modules ont été créés pour pouvoir lier Python à d'autres bibliothèques logicielles (« toolkit »), pour davantage de fonctionnalités, pour une meilleure intégration avec le système d'exploitation utilisé, ou simplement pour pouvoir utiliser Python avec sa bibliothèque préférée. En effet, certains programmeurs trouvent l'utilisation de Tkinter plus pénible que d'autres bibliothèques. Ces autres modules ne font pas partie de la bibliothèque standard et doivent donc être obtenus séparément.
+
+Les principaux modules donnant accès aux bibliothèques d'interface graphique sont Tkinter et Pmw (Python megawidgets)47 pour Tk, wxPython pour wxWidgets, PyGTK pour GTK+, PyQt et PySide pour Qt, et enfin FxPy pour le FOX Toolkit. Il existe aussi une adaptation de la bibliothèque SDL : Pygame, un binding de la SFML : PySFML, ainsi qu'une bibliothèque écrite spécialement pour Python : Pyglet (en).
+
+Il est aussi possible de créer des applications Silverlight en Python sur la plateforme IronPython.
+
+La communauté Python
+Guido van Rossum est le principal auteur de Python, et son rôle de décideur central permanent de Python est reconnu avec humour par le titre de « Dictateur bienveillant à vie » (Benevolent Dictator for Life, BDFL).
+
+Il est assisté d'une équipe de core developers qui ont un accès en écriture au dépôt de CPython et qui se coordonnent sur la liste de diffusion python-dev. Ils travaillent principalement sur le langage et la bibliothèque de base. Ils reçoivent ponctuellement les contributions d'autres développeurs Python via la plateforme de gestion de bug Roundup, qui a remplacé SourceForge.
+
+Les utilisateurs ou développeurs de bibliothèques tierces utilisent diverses autres ressources. Le principal média généraliste autour de Python est le forum Usenet anglophone comp.lang.python.
+
+Les allusions aux Monty Python sont assez fréquentes. Les didacticiels consacrés à Python utilisent souvent les mots spam et eggs comme variable métasyntaxique. Il s'agit d'une référence au sketch Spam des Monty Python, où deux clients tentent de commander un repas à l'aide d'une carte qui contient du jambon en conserve de marque SPAM dans pratiquement tous les plats. Ce sketch a été aussi pris pour référence pour désigner un courriel non sollicité.
+
+Adoption de Python
+Article détaillé : Liste de logiciels Python.
+Plusieurs entreprises ou organismes mentionnent sur leur site officiel48 qu'ils utilisent Python :
+
+Google (Guido van Rossum a travaillé au sein de cette entreprise entre 2005 et 201249) ;
+Industrial Light & Magic ;
+la NASA ;
+et CCP Games, les créateurs du jeu vidéo EVE Online.
+Python est aussi le langage de commande d'un grand nombre de logiciels libres :
+
+FreeCAD, logiciel de CAO 3D
+Blender, logiciel de modélisation 3D et d'édition vidéo
+Inkscape, logiciel de dessin vectoriel
+LibreOffice et Apache OpenOffice, les deux branches de développement d'une suite bureautique issue de StarOffice
+Portage, le gestionnaire de paquets du système d'exploitation Gentoo
+ParaView, logiciel de visualisation de données numériques
+Kodi, un lecteur multimédia
+QGIS, un logiciel de cartographie
+Weblate, un outil de traduction
+gedit, un éditeur de texte (les plugins sont écrits en Python)
+SageMath, un logiciel de calcul formel
+Et commerciaux :
+
+Wing IDE, environnement de développement intégré spécialisé sur Python, et écrit en Python
+Corel Paint Shop Pro, logiciel de traitement d’image et d'édition graphique
+capella, logiciel de notation musicale
+ArcGIS, un logiciel de cartographie50
+Visual Studio51
+Python est utilisé comme langage de programmation dans l'enseignement élémentaire et supérieur, notamment en France52. Depuis 2013, il y est enseigné, en même temps que Scilab, à tous les étudiants de classes préparatoires scientifiques dans le cadre du tronc commun (informatique pour tous). Auparavant, l'enseignement d'informatique était limité à une option en MP, l'enseignement se faisant en langage Caml ou Pascal. Cette option existe toujours, mais Pascal a été abandonné à partir de la session 2015 des concours, ne reste donc que Caml dans cet enseignement. Les premières épreuves de concours portant sur le langage Python sont également celles de la session 201553,54.
+
+Implémentations du langage
+Outre la version de référence, nommée CPython (car écrite en langage C), il existe d'autres systèmes mettant en œuvre le langage Python55 :
+
+Stackless Python, une version de CPython n'utilisant pas la pile d'appel du langage C ;
+Jython, un interprète Python pour machine virtuelle Java. Il a accès aux bibliothèques fournies avec l'environnement de développement Java ;
+IronPython, un interprète / compilateur (expérimental) pour plateforme .Net / Mono ;
+Brython, une implémentation de Python 3 pour les navigateurs web ;
+MicroPython, variante légère pour microcontrôleurs ;
+PyPy un interprète Python écrit dans un sous-ensemble de Python compilable vers le C ou LLVM ;
+un compilateur (expérimental) pour Parrot, la machine virtuelle de Perl 6 ;
+Shed Skin56, un compilateur d'un sous-ensemble de Python produisant du code en C++ ;
+Unladen Swallow (en)57, une version de CPython optimisée et basée sur LLVM, maintenant abandonnée (la dernière version remonte à octobre 2009).
+Ces autres versions ne bénéficient pas forcément de la totalité de la bibliothèque de fonctions écrites en C pour la version de référence, ni des dernières évolutions du langage.
+
+Distributions de Python
+Différentes distributions sont disponibles, qui incluent parfois beaucoup de packages dédiés à un domaine donné58 :
+
+ActivePython59 : disponible en version gratuite (ne pouvant être « utilisée en production ») ou commerciale.
+Python(x,y)60 : distribution Python à l'usage des scientifiques basée sur Qt et Eclipse.
+Enthought Canopy61 : distribution à usage scientifique, disponible en version gratuite (Canopy Express) ou commerciale.
+Anaconda62 : distribution à usage scientifique, disponible en version gratuite ou commerciale.
+Intel Distribution for Python63 : distribution basée sur Anaconda, intégrant notamment la bibliothèque MKL (en) d'Intel afin d'accélérer les calculs numériques de bibliothèques telles que NumPy et SciPy, intégrées à la distribution. Elle est disponible gratuitement seule, ou bien intégrée à Intel Parallel Studio, qui nécessite une licence payante.
+Pyzo64 : « Python to the people », destinée à être facile d'utilisation.
+Ce ne sont pas des implémentations différentes du langage Python : elles sont basées sur CPython, mais sont livrées avec un certain nombre de bibliothèques préinstallées.
